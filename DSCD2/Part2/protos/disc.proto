@@ -1,0 +1,53 @@
+syntax="proto3";
+
+package disc;
+import "google/protobuf/timestamp.proto";
+
+service RegisterReplicaService{
+    rpc replicaRegister(Server) returns (Server);
+    rpc getReplicaList(void) returns (Server_list);
+    rpc writeRequest(write) returns (writeResponse);
+    rpc updatePrimary(Server_list) returns (void);
+    rpc writeReplica(write) returns (result);
+    rpc readFile(uuidData) returns (file);
+    rpc deleteRequest(uuidData) returns (result);
+    rpc deleteReplica(uuidData) returns (result);
+
+
+}
+
+message uuidData{
+    string uuid=1;
+}
+message file{
+    string status=1;
+    string name=2;
+    string content=3;
+    google.protobuf.Timestamp version = 4;
+
+}
+message void{
+}
+message result{
+    string reply=1;
+}
+
+message write{
+    string name=1;
+    string content=2;
+    string uuid=3;
+}
+
+message writeResponse{
+    string status=1;
+    string uuid=2;
+    google.protobuf.Timestamp version = 3;
+}
+
+message Server{
+    string server_address=1;
+}
+
+message Server_list{
+    repeated Server server_list=1;
+}
